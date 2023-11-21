@@ -36,6 +36,12 @@ async def send_voice_echo(message: Message):
 async def send_video_echo(message: Message):
   await message.reply_video(message.video.file_id)
 
+# Этот хэндлер будет срабатывать на отправку документа
+async def send_document_echo(message: Message):
+  await message.answer(text='Держи назад свой документ')
+  await message.reply_document(message.document.file_id)
+
+
 
 # Этот хэндлер(обработчик) будет срабатывать на любые сообщения кроме /start и /info
 async def send_echo(message: Message):
@@ -48,6 +54,7 @@ dp.message.register(send_photo_echo, F.content_type == ContentType.PHOTO)  #мо
 dp.message.register(send_sticker_echo, F.sticker)
 dp.message.register(send_voice_echo, F.voice)
 dp.message.register(send_video_echo, F.video)
+dp.message.register(send_document_echo, F.document)
 dp.message.register(send_echo)
 
 if __name__ == '__main__':
