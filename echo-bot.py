@@ -32,6 +32,10 @@ async def send_sticker_echo(message: Message):
 async def send_voice_echo(message: Message):
   await message.reply_voice(message.voice.file_id)
 
+# Этот хэндлер срабатывает на видео
+async def send_video_echo(message: Message):
+  await message.reply_video(message.video.file_id)
+
 
 # Этот хэндлер(обработчик) будет срабатывать на любые сообщения кроме /start и /info
 async def send_echo(message: Message):
@@ -43,6 +47,7 @@ dp.message.register(process_info_command, Command(commands=['info']))
 dp.message.register(send_photo_echo, F.content_type == ContentType.PHOTO)  #можно заменить на F.photo
 dp.message.register(send_sticker_echo, F.sticker)
 dp.message.register(send_voice_echo, F.voice)
+dp.message.register(send_video_echo, F.video)
 dp.message.register(send_echo)
 
 if __name__ == '__main__':
