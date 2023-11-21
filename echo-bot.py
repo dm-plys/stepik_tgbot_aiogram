@@ -16,7 +16,7 @@ async def process_info_command(message: Message):
   await message.answer(text='Я отвечаю тебе твоими сообщениями. Вот такое я абышто!')
 
 @dp.message()
-async def echo_message(message: Message):
+async def send_echo(message: Message):
   await message.reply(text=message.text)
 
 if __name__ == '__main__':
