@@ -20,7 +20,8 @@ user = {'in_game': False,
         'attempts': None,
         'total_game': 0,
         'wins': 0,
-        'loss': 0
+        'loss': 0,
+        'be_dumb': False
 }
 
 # Этот хэндлер будет срабатывать на команду /start
@@ -91,6 +92,21 @@ async def process_number_answer(message: Message):
   else:
     await message.answer(text='Мы еще не играем!\nПиши /go чтобы начать.')
 
+# Этот хэндлер будет срабатывать на любые другие сообщения
+@dp.message()
+async def process_other_answer(message: Message):
+  if user['in_game']:
+    if user['be_dumb']:
+      user['be_dumb'] = False
+      user['in_game'] = False
+      user['loss'] += 1
+      user['total_game'] += 1
+      await message.answer(text='Я же тебя предупреждал. С машинами шутки плохи!\nТы проиграл!')
+    else:
+      user['be_dumb'] = True
+      await message.answer(text='Нужно отгадать число от 1 до 100.\nЕще раз напишешь не то защитаеся как поражение!')
+  else:
+    await message.answer(text='Моя твоя не понимайт! Пиши /help чтобы узнать че по чем.')
 
 
 
