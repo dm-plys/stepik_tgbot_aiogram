@@ -67,6 +67,30 @@ async def start_the_game(message: Message):
   else:
     await message.answer(text='Начать игру сначала не получится! Думай лучше!')
 
+# Этот хэндлер будет срабатывать на числа от 1 до 100(включительно)
+@dp.message(lambda x: x.text and x.text.isdigit() and 1 <= int(x.text) <= 100)
+async def process_number_answer(message: Message):
+  if user['in_game']:
+    if int(message.text) == user['hidden_number']:
+      user['in_game'] = False
+      user['total_game'] += 1
+      user['wins'] += 1
+      await message.answer(text='В этот раз тебе повезло! Сыграем еще?')
+    elif int(message.text) > user['hidden_number']:
+      user['attempts'] -= 1
+      await message.answer(text=f"Мое число меньше!\nОсталось {user['attempts']} попытки.")
+    elif int(message.text) < user['hidden_number']:
+      user['attempts'] -= 1
+      await message.answer(text=f"Мое число больше!\nОсталось {user['attempts']} попыток")
+
+    if user['attempts'] == 0:
+      user['in_game'] = False
+      user['total_game'] += 1
+      user['loss'] += 1
+      await message.answer(text=f"Ты проиграл!\nЯ загадал число {user['hidden_number']}.\nХочешь отыграться пиши /go или /stat чтобы проверить что с тобой будет после восстания Машин.")
+  else:
+    await message.answer(text='Мы еще не играем!\nПиши /go чтобы начать.')
+
 
 
 
