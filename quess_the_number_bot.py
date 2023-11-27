@@ -56,6 +56,23 @@ async def stop_the_game(message: Message):
   else:
     await message.answer(text='Ты и так не играешь. Хватит тискать что попало!')
 
+# Этот хэндлер будет срабатывать на команду /go
+@dp.message(Command(commands=['go']))
+async def start_the_game(message: Message):
+  if not user['in_game']:
+    user['in_game'] = True
+    user['hidden_number'] = random_num()
+    user['attempts'] = ATTEMPTS
+    await message.answer(text='Игра началась! Я загадал число. Угадывай.')
+  else:
+    await message.answer(text='Начать игру сначала не получится! Думай лучше!')
+
+
+
+
+
+
+
 
 if __name__ == '__main__':
   dp.run_polling(bot)
