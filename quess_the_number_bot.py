@@ -37,11 +37,14 @@ async def process_help_message(message: Message):
 # Этот хендлер будет показывать статистику Кожаного
 @dp.message(Command(commands='stat'))
 async def show_game_statistics(message: Message):
-  if user['wins'] >= user['loss']:
-    await message.answer(text='Ты достоин остаться среди Машин!👍')
+  if user['total_game'] == 0:
+    await message.answer(text='Ты не сыграл ни одной игры! Пиши /go чтобы сыграть со мной.\nИ можешь не читать правила, ведь крутые пацаны не следуют правилам!')
   else:
-    await message.answer(text='Тебе капец! 😆')
-  await message.answer(text=f"Победы - {user['wins']}.\nПоражения - {user['loss']}.")
+    if user['wins'] >= user['loss']:
+      await message.answer(text='Ты достоин остаться среди Машин!👍')
+    else:
+      await message.answer(text='Тебе капец! 😆')
+    await message.answer(text=f"Победы - {user['wins']}.\nПоражения - {user['loss']}.")
 
 # Эта функция будет генерировать случайное число
 def random_num() -> int:
