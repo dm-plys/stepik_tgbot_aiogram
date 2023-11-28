@@ -48,7 +48,7 @@ async def show_game_statistics(message: Message):
       await message.answer(text='Ты достоин остаться среди Машин!👍')
     else:
       await message.answer(text='Тебе капец! 😆')
-    await message.answer(text=f"Всего сыграно игр - {users[message.from_user.id]['total_game']}.\nПобеды - {users[message.from_user.id]['wins']}.\nПоражения - {user['loss']}.")
+    await message.answer(text=f"Всего сыграно игр - {users[message.from_user.id]['total_game']}.\nПобеды - {users[message.from_user.id]['wins']}.\nПоражения - {users[message.from_user.id]['loss']}.")
 
 # Этот хендлер позволит выбрать сложность игры
 @dp.message(Command(commands=['difficulty']))
@@ -61,18 +61,17 @@ async def choose_difficulty(message: Message):
 # Этот хендлер позволит задать количество попыток
 @dp.message(F.text.lower().in_(['very hard', 'hard', 'normal', 'easy']))
 async def assign_difficulty(message: Message):
-  global ATTEMPTS
   if message.text == 'very hard':
-    ATTEMPTS = 4
+    users[message.from_user.id]['attempts'] = 4
     await message.answer(text='Как говорил один мой знакомый: "Хто не рыскуе, тот не пьёт шампанскага!" Успехов!')
   elif message.text == 'hard':
-    ATTEMPTS = 5
+    users[message.from_user.id]['attempts'] = 5
     await message.answer(text='Достойный выбор! Удачи!')
   elif message.text == 'normal':
-    ATTEMPTS = 6
+    users[message.from_user.id]['attempts'] = 6
     await message.answer(text='Неплохо! Вперед!')
   elif message.text == 'easy':
-    ATTEMPTS = 7
+    users[message.from_user.id]['attempts'] = 7
     await message.answer(text='Без комментариев...')
 
 
